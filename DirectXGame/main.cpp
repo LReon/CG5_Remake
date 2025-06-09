@@ -92,33 +92,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	PipelineState pipelineState;
 	SetupPipelineState(pipelineState, rs, vs, ps);
 
-	// VertexResourceの生成
-	//D3D12_HEAP_PROPERTIES uploadHeapProperties{};
-	//uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-	//// 頂点リソースの設定
-	//D3D12_RESOURCE_DESC vertexResourceDesc{};
-	//vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	//vertexResourceDesc.Width = sizeof(Vector4) * 3;
-	//// バッファの場合はこれらは1にする決まり
-	//vertexResourceDesc.Height = 1;
-	//vertexResourceDesc.DepthOrArraySize = 1;
-	//vertexResourceDesc.MipLevels = 1;
-	//vertexResourceDesc.SampleDesc.Count = 1;
-	//// バッファの場合はこれらにする決まり
-	//vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	//// 実際に頂点リソースを生成する
-	//ID3D12Resource* vertexResource = nullptr;
-	//HRESULT hr = dxCommon->GetDevice()->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&vertexResource));
-	//assert(SUCCEEDED(hr));
-
-	//// VertexBufferViewのを作成する
-	//D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	//// リソースの先頭アドレスから使う
-	//vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
-	//// 使用するリソースのサイズは頂点3つ分のサイズ
-	//vertexBufferView.SizeInBytes = sizeof(Vector4) * 3;
-	//// 1つの頂点のサイズ
-	//vertexBufferView.StrideInBytes = sizeof(Vector4);
+	// VertexBufferの生成
 	VertexBuffer vb;
 	vb.Create(sizeof(Vector4) * 3, sizeof(Vector4));
 
@@ -128,8 +102,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	vertexData[0] = Vector4(-0.5f, -0.5f, 0.0f, 1.0f);
 	vertexData[1] = Vector4(0.0f, 0.5f, 0.0f, 1.0f);
 	vertexData[2] = Vector4(0.5f, -0.5f, 0.0f, 1.0f);
-	// 頂点リソースのマップを解除する
-	//vertexResource->Unmap(0, nullptr);
 
 	// ゲームシーンのインスタンスの生成
 	GameScene* gameScene = new GameScene();
@@ -166,7 +138,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	// 解放処理
-	//vertexResource->Release();
+
 	
 
 	// ゲームシーンの解放
