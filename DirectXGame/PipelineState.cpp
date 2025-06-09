@@ -1,3 +1,4 @@
+
 #include "PipelineState.h"
 #include "KamataEngine.h"
 
@@ -9,8 +10,7 @@ void PipelineState::Create(D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineSt
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	ID3D12PipelineState* graphicsPipelineState = nullptr;
-	HRESULT hr = dxCommon->GetDevice()->CreateGraphicsPipelineState(
-		&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState));
+	HRESULT hr = dxCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState));
 	assert(SUCCEEDED(hr));
 
 	// 生成した　PipelineState　をとっておく
@@ -18,13 +18,10 @@ void PipelineState::Create(D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineSt
 }
 
 // 生成した　PipelineState　を返す
-ID3D12PipelineState* PipelineState::Get() { 
-	return pipelineState_;
-}
+ID3D12PipelineState* PipelineState::Get() { return pipelineState_; }
 
 // コンストラクタ
-PipelineState::PipelineState() {
-}
+PipelineState::PipelineState() {}
 
 // デストラクタ
 PipelineState::~PipelineState() {
