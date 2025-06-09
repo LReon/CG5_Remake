@@ -1,4 +1,3 @@
-
 #pragma once
 #include <d3dx12.h> // ID3D12PipelineState
 
@@ -18,3 +17,4 @@ private:
 	// パイプラインステート
 	ID3D12PipelineState* pipelineState_ = nullptr;
 };
+
