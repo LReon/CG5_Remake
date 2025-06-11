@@ -161,7 +161,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// トポロジの設定
 		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		// 頂点数、インデックス数、インデックスの開始位置、インデックスのオフセット
-		//commandList->DrawInstanced(3, 1, 0, 0);
 		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 
 		// ゲームシーンの描画
