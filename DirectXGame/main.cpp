@@ -101,9 +101,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	// 頂点データの準備　*00_07 追加
 	VertexData vertices[] = {
-		{0.0f,0.5f,0.0f,1.0f},
-		{0.5f,-0.5f,0.0f,1.0f},
-		{-0.5f,-0.5f,0.0f,1.0f},
+		{1.0f,1.0f,0.0f,1.0f},// 右上0
+		{-1.0f,1.0f,0.0f,1.0f},// 左上1
+		{1.0f,-1.0f,0.0f,1.0f},// 右下2
+		{-1.0f,-1.0f,0.0f,1.0f},// 左下3
 	};
 
 	// VertexBufferの生成
@@ -117,7 +118,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		pGpuVertices[i] = vertices[i];
 	}
 
-	uint16_t indices[] = {0, 2, 1};
+	uint16_t indices[] = {
+		1,0,3,
+		2,3,0
+	};
 
 	// IndexBufferの生成
 	IndexBuffer ib;
