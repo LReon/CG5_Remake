@@ -108,8 +108,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	VertexData vertices[] = {
 	    {{1.0f, 1.0f, 0.0f, 1.0f}, {1.0f,0.0f}}, // 右上0
 	    {{-1.0f, 1.0f, 0.0f, 1.0f}, {0.0f,0.0f}}, // 左上1
-	    {{1.0f, -1.0f, 0.0f, 1.0f}, {0.0f,1.0f}}, // 右下2
-	    {{-1.0f, -1.0f, 0.0f, 1.0f}, {1.0f,1.0f}}, // 左下3
+	    {{1.0f, -1.0f, 0.0f, 1.0f}, {1.0f,1.0f}}, // 右下2
+	    {{-1.0f, -1.0f, 0.0f, 1.0f}, {0.0f,1.0f}}, // 左下3
 	};
 
 	// VertexBufferの生成
