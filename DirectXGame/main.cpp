@@ -319,8 +319,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// ゲームシーンの更新
 		gameScene->Update();
 
-		// 描画開始
-		dxCommon->PreDraw();
+		
 		D3D12_RESOURCE_BARRIER barrier{};
 		barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 		barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
@@ -362,7 +361,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 以前の状態はRenderTarget
 		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE; // 描画後はPixelShaderResourceにする
 		commandList->ResourceBarrier(1, &barrier);
-
+		// 描画開始
+		dxCommon->PreDraw();
 		// コマンドを積む
 		commandList->SetGraphicsRootSignature(rs.Get());
 		commandList->SetPipelineState(pipelineState.Get());
