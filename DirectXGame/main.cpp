@@ -370,11 +370,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		commandList->IASetIndexBuffer(ib.GetView());
 		// トポロジの設定
 		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		commandList->SetDescriptorHeaps(srvDescriptorHeap->GetDesc().NumDescriptors, &srvDescriptorHeap);
+		commandList->SetGraphicsRootDescriptorTable(0, srvHandleGPU); // SRVをセット
 		// 頂点数、インデックス数、インデックスの開始位置、インデックスのオフセット
 		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 
-		commandList->SetDescriptorHeaps(srvDescriptorHeap->GetDesc().NumDescriptors, &srvDescriptorHeap);
-		commandList->SetGraphicsRootDescriptorTable(0, srvHandleGPU); // SRVをセット
 
 
 		dxCommon->PostDraw();

@@ -32,6 +32,9 @@ void RootSignature::Create() {
 	rootParameters[0].DescriptorTable.pDescriptorRanges = srvDescRange;           // デスクリプタレンジを設定
 	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(rootParameters); // デスクリプタレンジの数を設定
 
+	descriptionRootSignature.pParameters = rootParameters;
+	descriptionRootSignature.NumParameters = _countof(rootParameters);
+
 	D3D12_STATIC_SAMPLER_DESC staticSampler[1] = {};
 	staticSampler[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // 線形フィルタを利用する
 	staticSampler[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // U方向はラップアラウンド

@@ -14,9 +14,12 @@ PixelShaderOutput main(VertexShaderOutput input)
     float32_t2 uv = input.texCoord;
     float32_t4 textureColor = gTexture.Sample(gSampler, uv);
     
-    //float32_t2 uv = input.texCoord;
-    // https://learn.microsoft.com/ja-jp/windows/win32/direct3dhlsl/dx-hlsl-per-component-math
-    // 位置セット( x y z w ) か　カラーセット( r g b a )でアクセスできる
-    output.color = float32_t4(uv.x, uv.y, 0.0f, 1.0f); // Red color
+    ////float32_t2 uv = input.texCoord;
+    //// https://learn.microsoft.com/ja-jp/windows/win32/direct3dhlsl/dx-hlsl-per-component-math
+    //// 位置セット( x y z w ) か　カラーセット( r g b a )でアクセスできる
+    //output.color = float32_t4(uv.x, uv.y, 0.0f, 1.0f);
+    
+    output.color = textureColor;
+    
     return output;
 }
