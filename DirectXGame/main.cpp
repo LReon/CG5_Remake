@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "WorldTransformEx.h"
 #include <Windows.h>
 
 using namespace KamataEngine;
@@ -308,6 +309,19 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	// ゲームシーンの初期化
 	gameScene->Initialize();
 
+	// アプリで利用する3Dモデル
+	// 被写体の準備
+	Model* model = Model::CreateFromOBJ("terrain");
+
+	WorldTransformEx worldTransform;
+	worldTransform.Initialize();
+	worldTransform.scale_ = Vector3(1.0f, 1.0f, 1.0f);
+
+	// カメラの準備
+	Camera camera;
+	camera.Initialize();
+	camera.translation_ = Vector3(0.0f, 1.0f, 0.0f); // カメラの位置
+
 	// メインループ
 	while (true) {
 
@@ -315,6 +329,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		if (KamataEngine::Update()) {
 			break;
 		}
+
+		// world変換行列の定数バッファへの転送
+		worldTransform.rotation_.y += 0.005f; // Y軸回転
+		worldTransform.UpdateMatrix();
+
+		// cameraの更新と定数バッファへの転送
+		camera.UpdateMatrix();
 
 		// ゲームシーンの更新
 		gameScene->Update();
@@ -353,14 +374,18 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		commandList->ClearRenderTargetView(rtvHandleCPU, kRenderTargetClearColor, 0, nullptr);
 		commandList->ClearDepthStencilView(dsvHandleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-		// ゲームシーンの描画
-		gameScene->Draw();
+		Model::PreDraw();
+		model->Draw(worldTransform, camera);
+		Model::PostDraw();
+
 		barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 		barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 		barrier.Transition.pResource = renderTextureResource; // RenderTextureResourceを指定
 		barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 以前の状態はRenderTarget
 		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE; // 描画後はPixelShaderResourceにする
 		commandList->ResourceBarrier(1, &barrier);
+		// ゲームシーンの描画
+		gameScene->Draw();
 		// 描画開始
 		dxCommon->PreDraw();
 		// コマンドを積む
@@ -381,6 +406,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	// 解放処理
+	delete model;
 	renderTextureResource->Release();
 	srvDescriptorHeap->Release();
 	rtvDescriptorHeap->Release();
